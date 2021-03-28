@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kbcomic.mapper.PicMapper">
+    <resultMap id="pic" type="com.example.kbcomic.entity.Pic">
+        <!--column是数据库字段,property是实体属性-->
+        <result column="id" property="id"></result>
+        <result column="pic_id" property="picId"></result>
+        <result column="pic_url" property="picUrl"></result>
+        <result column="chapter_id" property="chapterId"></result>
+    </resultMap>
+    <!--查询所有图片-->
+    <select id="queryAll" resultMap="pic">
+        select * from all_pic
+    </select>
+    <!--根据id查询图片-->
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="pic">
+        select * from all_pic
+        where id=#{id}
+    </select>
+    <!--根据图片id和章节id查询图片-->
+    <select id="queryPicByPicIdAndChapterId" resultMap="pic">
+        select * from all_pic
+        where pic_id=#{picId} and chapter_id=#{chapterId}
+    </select>
+    <!--插入图片-->
+    <insert id="insertPic" parameterType="com.example.kbcomic.entity.Pic"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into all_pic (pic_id,pic_url,chapter_id)
+        values ('${picId}','${picUrl}','${chapterId}')
+    </insert>
+    <!--根据章节id查图片列表-->
+    <select id="searchPictures" resultMap="pic">
+        select * from all_pic where chapter_id=#{chapterId}
+    </select>
+</mapper>

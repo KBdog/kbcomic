@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kbcomic.mapper.MessageMapper">
+    <!--总信息-->
+    <resultMap id="message" type="com.example.kbcomic.model.Message">
+        <result property="comicId" column="comic_id"></result>
+        <result property="comicName" column="comic_name"></result>
+        <!--章节集合-->
+        <collection property="chapterList" ofType="com.example.kbcomic.model.ChapterModel">
+            <result column="chapter_id" property="chapterId"></result>
+            <result column="chapter_name" property="chapterName"></result>
+            <!--图片集合-->
+            <collection property="picList" ofType="java.lang.String">
+<!--                <result column="pic_id" property="picId"></result>-->
+                <result column="pic_url" property="picUrl"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <!--查询总信息-->
+    <select id="queryMessageByComicId" resultMap="message" parameterType="java.lang.Integer">
+        select
+                all_comic.comic_id,
+                all_comic.comic_name,
+                all_chapter.chapter_id,
+                all_chapter.chapter_name,
+--                 all_pic.pic_id,
+                all_pic.pic_url
+        from
+            all_comic
+        left join all_chapter on all_comic.comic_id=all_chapter.comic_id
+        left join all_pic on all_chapter.chapter_id=all_pic.chapter_id
+        where all_comic.comic_id=#{id}
+    </select>
+
+</mapper>

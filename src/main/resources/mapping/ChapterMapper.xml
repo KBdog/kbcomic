@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kbcomic.mapper.ChapterMapper">
+    <resultMap id="chapter" type="com.example.kbcomic.entity.Chapter">
+        <!--column是数据库字段,property是实体属性-->
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="chapter_name" property="chapterName"></result>
+        <result column="comic_id" property="comicId"></result>
+    </resultMap>
+    <!--查询所有章节-->
+    <select id="queryAll" resultMap="chapter">
+        select * from all_chapter
+    </select>
+    <!--根据id查章节-->
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="chapter">
+        select * from all_chapter
+        where chapter_id=#{id}
+    </select>
+    <!--根据章节名和漫画id查询章节-->
+    <select id="queryByChapterNameAndComicId" resultMap="chapter">
+        select * from all_chapter
+        where chapter_name=#{chapterName} and comic_id=#{comicId}
+    </select>
+    <!--插入章节-->
+    <insert id="insertChapter" parameterType="com.example.kbcomic.entity.Chapter"
+            useGeneratedKeys="true" keyColumn="chapter_id" keyProperty="chapterId">
+        insert into all_chapter (chapter_name,comic_id)
+        values ('${chapterName}','${comicId}')
+    </insert>
+    <!--根据漫画id查询章节列表-->
+    <select id="searchChapters" resultMap="chapter">
+        select * from all_chapter where comic_id=#{comicId}
+    </select>
+</mapper>

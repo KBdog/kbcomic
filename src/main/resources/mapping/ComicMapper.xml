@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kbcomic.mapper.ComicMapper">
+    <resultMap id="comic" type="com.example.kbcomic.entity.Comic">
+        <!--column是数据库字段,property是实体属性-->
+        <result column="comic_id" property="comicId"></result>
+        <result column="comic_name" property="comicName"></result>
+        <result column="comic_description" property="comicDescription"></result>
+        <result column="comic_cover" property="comicCover"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+    <!--查询所有漫画-->
+    <select id="queryAll" resultMap="comic">
+        select * from all_comic
+    </select>
+    <!--根据id查漫画-->
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="comic">
+        select * from all_comic
+        where comic_id=#{id}
+    </select>
+
+    <!--根据关键字查漫画-->
+    <!--普通模糊查询形式-->
+<!--    <select id="queryComicByKeyword" parameterType="java.lang.String" resultMap="comic">-->
+<!--        select * from all_comic-->
+<!--        where comic_name like CONCAT('%',#{keyword},'%')-->
+<!--    </select>-->
+    <!--全文检索分词查询-->
+    <select id="queryComicByKeyword" parameterType="java.lang.String" resultMap="comic">
+        select * from all_comic
+        where match(comic_name)
+        against (#{keyword})
+    </select>
+
+    <!--根据准确漫画名查询漫画-->
+    <select id="queryComicByComicName" parameterType="java.lang.String" resultMap="comic">
+        select * from all_comic
+        where comic_name = #{comicName}
+        limit 1
+    </select>
+    <!--插入漫画-->
+    <insert id="insertComic" parameterType="com.example.kbcomic.entity.Comic"
+            useGeneratedKeys="true" keyColumn="comic_id" keyProperty="comicId">
+        insert into all_comic (comic_name,comic_description,comic_cover,create_time,update_time)
+        values ('${comicName}','${comicDescription}','${comicCover}','${createTime}','${updateTime}')
+    </insert>
+    <!--更新漫画-->
+    <update id="updateComicMessage">
+        update all_comic
+        set comic_description=#{comic.comicDescription},comic_cover=#{comic.comicCover},update_time=#{comic.updateTime}
+        where comic_id=#{comicId}
+    </update>
+</mapper>
