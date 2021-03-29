@@ -2,6 +2,7 @@ package com.example.kbcomic.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.io.*;
 
@@ -32,6 +33,12 @@ public class JSONUtils {
     public static String getJSONAttribute(String key, String jsonString){
         JSONObject jsonObject = JSONObject.parseObject(jsonString);
         return jsonObject.getString(key);
+    }
+
+    //格式化json
+    public static String formatJSON(JSON json){
+        return JSON.toJSONString(json, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
     }
 
 }
