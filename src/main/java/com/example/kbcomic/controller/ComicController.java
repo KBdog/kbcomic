@@ -1,11 +1,18 @@
 package com.example.kbcomic.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.kbcomic.entity.Comic;
 import com.example.kbcomic.enums.ResultEnum;
 import com.example.kbcomic.model.Result;
 import com.example.kbcomic.service.ComicService;
+import com.example.kbcomic.utils.JSONUtils;
 import com.example.kbcomic.utils.LanguageTransferUtil;
 import com.example.kbcomic.utils.ResultUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +26,18 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/comic")
+@Slf4j
 public class ComicController {
     @Autowired
     private ComicService service;
+
     @RequestMapping("/all")
     public Result queryAll(){
         Map<String,Object> resultMap=new HashMap<>();
         List<Comic> comics = service.queryAll();
         resultMap.put("comicList",comics);
         resultMap.put("total",comics.size());
+        log.info("漫画总数:"+comics.size());
         return ResultUtils.success(resultMap);
     }
 
