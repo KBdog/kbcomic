@@ -14,8 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
     @Autowired
     private MessageService service;
-    @RequestMapping("/comic")
+    @RequestMapping("/comic1")
     public Message getMessage(@RequestParam(value = "id") Integer comicId){
+        System.out.println("查询漫画id:"+comicId);
         return service.queryMessageByComicId(comicId);
+    }
+
+    @RequestMapping("/comic2")
+    public Message testGetMessage(@RequestParam(value = "id") Integer comicId){
+        System.out.println("查询漫画id:"+comicId);
+        return service.queryMessage(comicId);
     }
 }

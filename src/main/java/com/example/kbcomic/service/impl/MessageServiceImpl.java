@@ -16,4 +16,9 @@ public class MessageServiceImpl implements MessageService {
     public Message queryMessageByComicId(Integer comicId) {
         return mapper.queryMessageByComicId(comicId);
     }
+
+    @Override
+    public Message queryMessage(Integer comicId) {
+        return mapper.queryMessage(comicId);
+    }
 }
