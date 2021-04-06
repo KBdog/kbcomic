@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 @CrossOrigin
 @RequestMapping("/update")
 public class UpdateController {
+    public static boolean flag=false;
     @Autowired
     private ComicService comicService;
     @Autowired
@@ -233,23 +234,30 @@ public class UpdateController {
         String username=jsonObject.getString("username");
         String keyword = jsonObject.getString("keyword");
         if(username.equals("root")&&keyword.equals("root")){
-            //开个新线程对数据库进行更新
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-                    Date date1 = new Date(System.currentTimeMillis());
-                    System.out.println("更新开始时间:"+formatter.format(date1));
-                    update();
-                    Date date2=new Date(System.currentTimeMillis());
-                    System.out.println("更新结束时间:"+formatter.format(date2));
-                    long useTime=date2.getTime()-date1.getTime();
-                    System.out.println("用时:"+useTime/1000+"秒");
-                }
-            }).start();
-            return ResultUtils.success("验证成功");
+            if(flag==false){
+                //开个新线程对数据库进行更新
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //锁定信号量
+                        flag=true;
+                        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                        Date date1 = new Date(System.currentTimeMillis());
+                        System.out.println("更新开始时间:"+formatter.format(date1));
+                        update();
+                        Date date2=new Date(System.currentTimeMillis());
+                        System.out.println("更新结束时间:"+formatter.format(date2));
+                        long useTime=date2.getTime()-date1.getTime();
+                        System.out.println("用时:"+useTime/1000+"秒");
+                        flag=false;
+                    }
+                }).start();
+                return ResultUtils.success("验证成功，更新已经开始！");
+            }else {
+                return ResultUtils.error("验证成功，但目前更新正在执行！请稍后再发送请求！");
+            }
         }else {
-            return ResultUtils.error("验证失败");
+            return ResultUtils.error("验证失败！");
         }
     }
 }
