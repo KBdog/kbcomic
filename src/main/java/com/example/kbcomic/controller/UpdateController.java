@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 @CrossOrigin
 @RequestMapping("/update")
 public class UpdateController {
+    //更新信号量
     public static boolean flag=false;
     @Autowired
     private ComicService comicService;
