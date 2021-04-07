@@ -250,6 +250,7 @@ public class UpdateController {
                         System.out.println("更新结束时间:"+formatter.format(date2));
                         long useTime=date2.getTime()-date1.getTime();
                         System.out.println("用时:"+useTime/1000+"秒");
+                        //释放信号量
                         flag=false;
                     }
                 }).start();
