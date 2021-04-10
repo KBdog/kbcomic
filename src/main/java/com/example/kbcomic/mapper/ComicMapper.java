@@ -3,8 +3,10 @@ package com.example.kbcomic.mapper;
 import com.example.kbcomic.entity.Comic;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -21,4 +23,7 @@ public interface ComicMapper {
     Comic queryComicByComicName(@Param(value = "comicName")String comicName);
     //更新漫画简介
     Integer updateComicMessage(@Param(value = "comicId") Integer comicId,@Param(value = "comic") Comic comic);
+    //根据id更新漫画更新时间
+    @Update("update all_comic set update_time=#{updateTime} where comic_id=#{comicId}")
+    Integer updateComicUpdateTime(@Param("updateTime")Date date,@Param("comicId")Integer comicId);
 }

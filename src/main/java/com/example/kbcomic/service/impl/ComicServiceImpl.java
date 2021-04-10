@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -42,6 +43,11 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public Integer updateComicMessage(Integer comicId, Comic comic) {
         return mapper.updateComicMessage(comicId,comic);
+    }
+
+    @Override
+    public Integer updateComicUpdateTime(Date date, Integer comicId) {
+        return mapper.updateComicUpdateTime(date,comicId);
     }
 
 

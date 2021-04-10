@@ -140,6 +140,8 @@ public class UpdateController {
                                 entityChapter=new Chapter();
                                 entityChapter.setChapterName(chapter.getName());
                                 entityChapter.setComicId(tmpComic.getComicId());
+                                //更新漫画更新时间
+                                comicService.updateComicUpdateTime(new Date(System.currentTimeMillis()),tmpComic.getComicId());
                                 //插入章节
                                 chapterService.insertChapter(entityChapter);
                                 System.out.println("-chapter_id:"+entityChapter.getChapterId());
