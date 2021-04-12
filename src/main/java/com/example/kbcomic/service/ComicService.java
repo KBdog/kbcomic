@@ -16,4 +16,6 @@ public interface ComicService {
     Comic queryByComicName(String comicName);
     Integer updateComicMessage(Integer comicId,Comic comic);
     Integer updateComicUpdateTime(Date date, Integer comicId);
+    //根据漫画id删除漫画简介
+    Integer deleteComic(Integer comicId);
 }

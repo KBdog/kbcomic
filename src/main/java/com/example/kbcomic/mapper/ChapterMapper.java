@@ -2,6 +2,7 @@ package com.example.kbcomic.mapper;
 
 import com.example.kbcomic.entity.Chapter;
 import com.example.kbcomic.entity.Comic;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,10 @@ public interface ChapterMapper {
 
     /**
      * 供api使用
-     * 根据漫画id查章节列表
      */
+    //根据漫画id查章节列表
     List<Chapter> searchChapters(@Param(value = "comicId")Integer comicId);
+    //根据漫画id删除其所有章节
+    @Delete("DELETE FROM all_chapter WHERE comic_id=#{comicId}")
+    Integer deleteChapter(@Param("comicId")Integer comicId);
 }

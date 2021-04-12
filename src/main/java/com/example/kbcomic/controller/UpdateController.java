@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 @CrossOrigin
 @RequestMapping("/update")
 public class UpdateController {
-    //更新信号量
+    //更新信号量false表示空闲 true表示占用
     public static boolean flag=false;
     @Autowired
     private ComicService comicService;
@@ -258,10 +258,42 @@ public class UpdateController {
                 }).start();
                 return ResultUtils.success("验证成功，更新已经开始！");
             }else {
-                return ResultUtils.error("验证成功，但目前更新正在执行！请稍后再发送请求！");
+                return ResultUtils.error("验证成功，目前更新正在执行！请稍后再发送请求！");
             }
         }else {
             return ResultUtils.error("验证失败！");
         }
+    }
+
+    @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
+    public Result deleteMangaDB(@RequestParam("comic_id")Integer comic_id){
+        if(flag==true){
+            return ResultUtils.error("删除失败，目前更新正在执行！请稍后再发送请求！");
+        }
+        //锁定信号量
+        flag=true;
+        Comic comic = comicService.queryById(comic_id);
+        Integer resultNum=picService.deletePic(comic_id);
+        if(resultNum>0){
+            System.out.println("删除图片成功："+comic_id+"-"+comic.getComicName());
+            resultNum=chapterService.deleteChapter(comic_id);
+            if(resultNum>0){
+                System.out.println("删除章节成功："+comic_id+"-"+comic.getComicName());
+                resultNum=comicService.deleteComic(comic_id);
+                if(resultNum>0){
+                    System.out.println("删除漫画简介成功："+comic_id+"-"+comic.getComicName());
+                    //释放信号量
+                    flag=false;
+                    return ResultUtils.success("删除成功！"+comic_id+"-"+comic.getComicName());
+                }
+                System.out.println("删除漫画简介失败："+comic_id+"-"+comic.getComicName());
+                return ResultUtils.define(204,"仅删除图片和章节成功！"+comic_id+"-"+comic.getComicName(),null);
+            }
+            System.out.println("删除章节失败："+comic_id+"-"+comic.getComicName());
+            return ResultUtils.define(204,"仅删除图片成功！"+comic_id+"-"+comic.getComicName(),null);
+        }
+        //释放信号量
+        flag=false;
+        return ResultUtils.error("删除失败！不存在该漫画！");
     }
 }

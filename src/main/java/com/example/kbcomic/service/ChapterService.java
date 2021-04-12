@@ -1,8 +1,6 @@
 package com.example.kbcomic.service;
 
 import com.example.kbcomic.entity.Chapter;
-import com.example.kbcomic.entity.Comic;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +13,9 @@ public interface ChapterService {
     Chapter queryByChapterNameAndComicId(String chapterName,Integer comicId);
     /**
      * 供api使用
-     * 根据漫画id查章节列表
      */
+    //根据漫画id查章节列表
     List<Chapter> searchChapters(Integer comicId);
+    //根据漫画id删除其所有章节
+    Integer deleteChapter(Integer comicId);
 }

@@ -39,4 +39,9 @@ public class PicServiceImpl implements PicService {
     public List<Pic> searchPictures(Integer chapterId) {
         return mapper.searchPictures(chapterId);
     }
+
+    @Override
+    public Integer deletePic(Integer comicId) {
+        return mapper.deletePic(comicId);
+    }
 }

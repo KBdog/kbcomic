@@ -41,4 +41,9 @@ public class ChapterServiceImpl implements ChapterService {
     public List<Chapter> searchChapters(Integer comicId) {
         return mapper.searchChapters(comicId);
     }
+
+    @Override
+    public Integer deleteChapter(Integer comicId) {
+        return mapper.deleteChapter(comicId);
+    }
 }

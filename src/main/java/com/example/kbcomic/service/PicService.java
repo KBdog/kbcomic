@@ -15,7 +15,9 @@ public interface PicService {
     Pic queryPicByPicIdAndChapterId(Integer picId,Integer chapterId);
     /**
      * 供api使用
-     * 根据章节id查询图片列表
      */
+    //根据章节id查询图片列表
     List<Pic>searchPictures(Integer chapterId);
+    //根据漫画id删除其所有图片
+    Integer deletePic(Integer comicId);
 }

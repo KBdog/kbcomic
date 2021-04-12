@@ -1,6 +1,7 @@
 package com.example.kbcomic.mapper;
 
 import com.example.kbcomic.entity.Comic;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -26,4 +27,7 @@ public interface ComicMapper {
     //根据id更新漫画更新时间
     @Update("update all_comic set update_time=#{updateTime} where comic_id=#{comicId}")
     Integer updateComicUpdateTime(@Param("updateTime")Date date,@Param("comicId")Integer comicId);
+    //根据漫画id删除其漫画信息
+    @Delete("DELETE FROM all_comic WHERE comic_id=#{comicId}")
+    Integer deleteComic(@Param("comicId")Integer comicId);
 }

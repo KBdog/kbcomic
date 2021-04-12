@@ -50,5 +50,10 @@ public class ComicServiceImpl implements ComicService {
         return mapper.updateComicUpdateTime(date,comicId);
     }
 
+    @Override
+    public Integer deleteComic(Integer comicId) {
+        return mapper.deleteComic(comicId);
+    }
+
 
 }
