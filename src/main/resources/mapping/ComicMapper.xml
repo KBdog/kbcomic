@@ -44,7 +44,7 @@
     <insert id="insertComic" parameterType="com.example.kbcomic.entity.Comic"
             useGeneratedKeys="true" keyColumn="comic_id" keyProperty="comicId">
         insert into all_comic (comic_name,comic_description,comic_cover,create_time,update_time)
-        values ('${comicName}','${comicDescription}','${comicCover}','${createTime}','${updateTime}')
+        values (#{insertComic.comicName},#{insertComic.comicDescription},#{insertComic.comicCover},#{insertComic.createTime},#{insertComic.updateTime})
     </insert>
     <!--更新漫画-->
     <update id="updateComicMessage">

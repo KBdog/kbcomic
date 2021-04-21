@@ -16,7 +16,7 @@ public interface PicMapper {
     //根据id查询图片
     Pic queryById(@Param(value = "id") Integer id);
     //插入图片
-    Integer insertPic(Pic pic);
+    Integer insertPic(@Param("insertPic") Pic pic);
     //根据图片页数和章节id查询图片
     Pic queryPicByPicIdAndChapterId(@Param(value = "picId")Integer picId,@Param(value = "chapterId")Integer chapterId);
     /**

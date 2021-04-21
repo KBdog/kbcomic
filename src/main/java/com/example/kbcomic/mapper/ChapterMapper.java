@@ -16,7 +16,7 @@ public interface ChapterMapper {
     //根据id查询章节
     Chapter queryById(@Param(value = "id") Integer id);
     //插入漫画
-    Integer insertChapter(Chapter chapter);
+    Integer insertChapter(@Param("insertChapter") Chapter chapter);
     //根据章节名和漫画id查章节
     Chapter queryByChapterNameAndComicId(@Param(value = "chapterName")String chapterName,@Param(value = "comicId")Integer comicId);
 

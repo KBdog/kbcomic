@@ -27,7 +27,7 @@
     <insert id="insertPic" parameterType="com.example.kbcomic.entity.Pic"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into all_pic (pic_id,pic_url,chapter_id)
-        values ('${picId}','${picUrl}','${chapterId}')
+        values (#{insertPic.picId},#{insertPic.picUrl},#{insertPic.chapterId})
     </insert>
     <!--根据章节id查图片列表-->
     <select id="searchPictures" resultMap="pic">

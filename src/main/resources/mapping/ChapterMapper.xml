@@ -26,7 +26,7 @@
     <insert id="insertChapter" parameterType="com.example.kbcomic.entity.Chapter"
             useGeneratedKeys="true" keyColumn="chapter_id" keyProperty="chapterId">
         insert into all_chapter (chapter_name,comic_id)
-        values ('${chapterName}','${comicId}')
+        values (#{insertChapter.chapterName},#{insertChapter.comicId})
     </insert>
     <!--根据漫画id查询章节列表-->
     <select id="searchChapters" resultMap="chapter">

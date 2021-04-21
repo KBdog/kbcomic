@@ -17,7 +17,7 @@ public interface ComicMapper {
     //根据id查询漫画
     Comic queryById(@Param(value = "id") Integer id);
     //插入漫画
-    Integer insertComic(Comic comic);
+    Integer insertComic(@Param("insertComic") Comic comic);
     //根据关键字查漫画
     List<Comic> queryComicByKeyword(@Param(value = "keyword")String keyword);
     //根据漫画名准确查询漫画
