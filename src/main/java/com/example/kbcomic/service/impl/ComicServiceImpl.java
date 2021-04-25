@@ -6,12 +6,14 @@ import com.example.kbcomic.service.ComicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
 
 @Service
 @Primary
+@Transactional
 public class ComicServiceImpl implements ComicService {
     @Autowired
     private ComicMapper mapper;
