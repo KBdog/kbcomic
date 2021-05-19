@@ -13,6 +13,7 @@ import com.example.kbcomic.utils.JSONUtils;
 import com.example.kbcomic.utils.ResultUtils;
 import com.example.kbcomic.utils.SortManga;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 @CrossOrigin
 @RequestMapping("/update")
 public class UpdateController {
+    @Value("${cbs.imagesPath}")
+    private String imagesPath;
     //更新信号量false表示空闲 true表示占用
     public static boolean flag=false;
     @Autowired
@@ -40,8 +43,10 @@ public class UpdateController {
     private Pic entityPic;
     //更新数据库
     public void update(){
+        //反斜杠转义
+        String path=imagesPath.replaceAll("\\\\","\\\\\\\\");
         //根目录
-        File comicRoot=new File("D:\\copymanga");
+        File comicRoot=new File(path.replaceAll("file:",""));
         //漫画列表
         File[] comicList = comicRoot.listFiles();
         //按创建时间顺序排序
@@ -88,8 +93,9 @@ public class UpdateController {
                                 if(pic.getName().endsWith("jpg")){
                                     //图片页数
                                     String page = pic.getName().split(".jpg")[0];
+                                    String split=imagesPath.replaceAll("\\\\","/").replaceAll("file:","");
                                     String suffixPath=pic.getAbsolutePath().
-                                            replaceAll("\\\\","/").split("D:/copymanga/")[1];
+                                            replaceAll("\\\\","/").split(split)[1];
                                     //最终写入数据库的url路径
                                     String comicPath="http://localhost:8081/comics/"+suffixPath;
                                     entityPic=new Pic();
@@ -159,8 +165,9 @@ public class UpdateController {
                                     if(pic.getName().endsWith("jpg")){
                                         //图片页数
                                         String page = pic.getName().split(".jpg")[0];
+                                        String split=imagesPath.replaceAll("\\\\","/").replaceAll("file:","");
                                         String suffixPath=pic.getAbsolutePath().
-                                                replaceAll("\\\\","/").split("D:/copymanga/")[1];
+                                                replaceAll("\\\\","/").split(split)[1];
                                         //最终写入数据库的url路径
                                         String comicPath="http://localhost:8081/comics/"+suffixPath;
                                         entityPic=new Pic();
@@ -186,8 +193,9 @@ public class UpdateController {
                                         Pic tmpPic = picService.queryPicByPicIdAndChapterId(Integer.parseInt(page), tmpChapter.getChapterId());
                                         //图片不存在则录入
                                         if(tmpPic==null){
+                                            String split=imagesPath.replaceAll("\\\\","/").replaceAll("file:","");
                                             String suffixPath=pic.getAbsolutePath().
-                                                    replaceAll("\\\\","/").split("D:/copymanga/")[1];
+                                                    replaceAll("\\\\","/").split(split)[1];
                                             //最终写入数据库的url路径
                                             String comicPath="http://localhost:8081/comics/"+suffixPath;
                                             entityPic=new Pic();
